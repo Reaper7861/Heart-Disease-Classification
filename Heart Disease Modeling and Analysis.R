@@ -61,6 +61,7 @@ summary(heart.thal.fit)
 heart.fit = glm(num ~ ., family = "binomial", data = HeartDisease)
 summary(heart.fit)
 
+# Step Function
 
 step(heart.fit)
 
