@@ -3,7 +3,7 @@ HeartDisease = read.csv("heart_disease.csv")
 View(HeartDisease)
 
 # Preprocessing dataset
-colSums(is.na(HeartDisease))
+colSums(is.na(HeartDisease)) # Data is good 
 
 # Converting categorical features to factors
 HeartDisease$sex <- as.factor(HeartDisease$sex)
@@ -61,7 +61,6 @@ summary(heart.thal.fit)
 heart.fit = glm(num ~ ., family = "binomial", data = HeartDisease)
 summary(heart.fit)
 
-# Step Function
 
 step(heart.fit)
 
