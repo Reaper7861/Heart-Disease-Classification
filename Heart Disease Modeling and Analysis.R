@@ -177,7 +177,3 @@ error.rate = (conf.mat[1,2] + conf.mat[2,1])/sum(conf.mat)
 
 conf.mat
 error.rate
-                                
-                                
-                                
-                                
