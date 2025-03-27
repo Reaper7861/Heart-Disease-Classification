@@ -121,7 +121,7 @@ heart.age.fit = glm(num ~ age, family = "binomial", data = HeartDisease) # Signi
 summary(heart.age.fit)
 
 
-heart.full = glm(num ~ ., family = "binomial", data = HeartDisease) # Age not significant
+heart.full = glm(num ~ ., family = "binomial", data = HeartDisease) # Age is not significant
 summary(heart.full)
 
 
@@ -144,8 +144,7 @@ library(randomForest)
 set.seed(123)
 
 heart.rf = randomForest(HeartDisease$num ~ ., data = HeartDisease,
-                        ntree = 500, mtry = sqrt(12),
-                        importance = T)
+                        ntree = 500, mtry = sqrt(13), importance = T)
 
 heart.rf
 varImpPlot(heart.rf)
@@ -153,7 +152,7 @@ varImpPlot(heart.rf)
 
 heart.rf.optimal = randomForest(num ~ sex + cp + trestbps + thalach + exang
                                 + slope + ca + thal, data = HeartDisease,
-                                ntree = 500, mtry = sqrt(5), importance = T)
+                                ntree = 500, mtry = sqrt(8), importance = T)
 
 heart.rf.optimal
 varImpPlot(heart.rf.optimal)
@@ -167,8 +166,7 @@ train = HeartDisease[sample,]
 test = HeartDisease[-sample,]
 
 heart.rf.cv = randomForest(num ~ sex + cp + trestbps + thalach + exang
-                + slope + ca + thal, data = train, ntree = 500, mtry = sqrt(12), 
-                importance = T)
+                + slope + ca + thal, data = train, ntree = 500, mtry = sqrt(8), importance = T)
 
 heart.rf.pred = predict(heart.rf.cv, newdata = test)
 conf.mat = table(Predicted = heart.rf.pred, Actual = test$num)
