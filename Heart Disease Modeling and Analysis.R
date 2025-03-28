@@ -2,6 +2,7 @@
 HeartDisease = read.csv("heart_disease.csv")
 View(HeartDisease)
 
+#will this work?
 
 # Preprocessing dataset
 colSums(is.na(HeartDisease)) # Data is good 
