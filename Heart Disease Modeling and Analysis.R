@@ -95,25 +95,30 @@ heart.fit.optimal = glm(num ~ sex + cp + trestbps + thalach + exang
 summary(heart.fit.optimal)
 
 
-# Logistic Regression Cross Validation - 70/30 Split
-set.seed(4323)
-  
-sample = sample.int(n = nrow(HeartDisease), size = floor(.7 * nrow(HeartDisease)), replace = F)
-train = HeartDisease[sample,]
-test = HeartDisease[-sample,]
-  
-heart.glm.cv = glm(num ~ sex + cp + trestbps + thalach + exang
-                  + slope + ca + thal, family = "binomial", 
-                  data = train)
-  
-heart.glm.pred = predict(heart.glm.cv, newdata = test, type = "response")
-heart.binary = ifelse(heart.glm.pred < 0.5, "0", "1")
-conf.mat = table(Predicted = heart.binary, Actual = test$num)
+# Logistic Regression Cross Validation - 80/20 Split
+store.errorRate = rep(0, 10)
 
-error.rate = (conf.mat[1,2] + conf.mat[2,1])/sum(conf.mat)
+for(i in 1:10){
+  set.seed(i + 100)
+  sample = sample.int(n = nrow(HeartDisease), size = floor(.8 * nrow(HeartDisease)), replace = F)
+  
+  train = HeartDisease[sample,]
+  test = HeartDisease[-sample,]
+  
+  heart.glm.cv = glm(num ~ sex + cp + trestbps + thalach + exang
+                     + slope + ca + thal, family = "binomial", 
+                     data = train)
+  
+  heart.glm.pred = predict(heart.glm.cv, newdata = test, type = "response")
+  heart.binary = ifelse(heart.glm.pred < 0.5, "0", "1")
+  
+  conf.mat = table(Predicted = heart.binary, Actual = test$num)
+  store.errorRate[i] = (conf.mat[1, 2] + conf.mat[2, 1])/sum(conf.mat)
+}
 
-conf.mat
-error.rate
+conf.mat # 0 does not have heart disease, 1 has heart disease
+store.errorRate
+mean(store.errorRate)
 
 
 # Role of age
@@ -158,20 +163,26 @@ heart.rf.optimal
 varImpPlot(heart.rf.optimal)
 
 
-# Random Forest Cross Validation - 70/30 Split
-set.seed(456)
+# Random Forest Cross Validation - 80/20 Split
+store.errorRate = rep(0, 10)
 
-sample = sample.int(n = nrow(HeartDisease), size = floor(.7 * nrow(HeartDisease)), replace = F)
-train = HeartDisease[sample,]
-test = HeartDisease[-sample,]
+for(i in c(1: 10)){
+  set.seed(i + 100)
+  
+  sample = sample.int(n = nrow(HeartDisease), size = floor(.8 * nrow(HeartDisease)), replace = F)
+  
+  train = HeartDisease[sample,]
+  test = HeartDisease[-sample,]
+  
+  heart.rf.cv = randomForest(num ~ sex + cp + trestbps + thalach + exang
+                             + slope + ca + thal, data = train, ntree = 500, mtry = sqrt(8), importance = T)
+  
+  heart.rf.pred = predict(heart.rf.cv, newdata = test)
+  conf.mat = table(Predicted = heart.rf.pred, Actual = test$num)
+  
+  store.errorRate[i] = (conf.mat[1, 2] + conf.mat[2, 1])/sum(conf.mat)
+}
 
-heart.rf.cv = randomForest(num ~ sex + cp + trestbps + thalach + exang
-                + slope + ca + thal, data = train, ntree = 500, mtry = sqrt(8), importance = T)
-
-heart.rf.pred = predict(heart.rf.cv, newdata = test)
-conf.mat = table(Predicted = heart.rf.pred, Actual = test$num)
-
-error.rate = (conf.mat[1,2] + conf.mat[2,1])/sum(conf.mat)
-
-conf.mat
-error.rate
+conf.mat # 0 does not have heart disease, 1 has heart disease
+store.errorRate
+mean(store.errorRate)
