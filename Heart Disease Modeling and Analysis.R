@@ -69,26 +69,50 @@ summary(heart.fit)
 step(heart.fit)
 
 
-# Fit a test model without thalach 
-heart.fit.test1 = glm(num ~ sex + cp + trestbps + exang
-                     + slope + ca + thal, family = "binomial", 
-                     data = HeartDisease)
+# Fit a test model without exang, ca, and thal
+heart.fit.test1 = glm(num ~ sex + cp + trestbps + thalach + slope, 
+                      family = "binomial", data = HeartDisease)
 summary(heart.fit.test1)
 
-# Fit a test model without thal 
-heart.fit.test2 = glm(num ~ sex + cp + trestbps + exang
-                      + slope + ca + thalach, family = "binomial", 
-                      data = HeartDisease)
+# Fit a test model without ca and thal
+heart.fit.test2 = glm(num ~ sex + cp + trestbps + thalach + slope + exang, 
+                      family = "binomial", data = HeartDisease)
 summary(heart.fit.test2)
 
+# Fit a test model without thal
+heart.fit.test3 = glm(num ~ sex + cp + trestbps + thalach + slope + exang
+                      + ca, family = "binomial", data = HeartDisease)
+summary(heart.fit.test3)
+
+# Fit a test model with all previous features
+heart.fit.test4 = glm(num ~ sex + cp + trestbps + thalach + slope + exang
+                      + ca + thal, family = "binomial", data = HeartDisease)
+summary(heart.fit.test4)
+
 # Fit a test model without thalach and thal 
-heart.fit.test3 = glm(num ~ sex + cp + trestbps + exang
+heart.fit.test5 = glm(num ~ sex + cp + trestbps + exang
                       + slope + ca, family = "binomial", 
                       data = HeartDisease)
-summary(heart.fit.test3)
+summary(heart.fit.test5)
+
+# Fit a test model with oldpeak 
+heart.fit.test6 = glm(num ~ sex + cp + trestbps + thalach + slope + exang
+                      + oldpeak, family = "binomial", data = HeartDisease)
+summary(heart.fit.test6)
+
+# Fit a test model with slope
+heart.fit.test7 = glm(num ~ sex + cp + trestbps + thalach + slope + exang
+                      + slope, family = "binomial", data = HeartDisease)
+summary(heart.fit.test7)
+
+# Fit a test model with oldpeak and slope
+heart.fit.test8 = glm(num ~ sex + cp + trestbps + thalach + slope + exang
+                      + slope + oldpeak, family = "binomial", data = HeartDisease)
+summary(heart.fit.test8)
 
 
 # Fit model based on predictors chosen by step function
+# Considered our optimal model
 heart.fit.optimal = glm(num ~ sex + cp + trestbps + thalach + exang
                         + slope + ca + thal, family = "binomial", 
                         data = HeartDisease)
@@ -119,6 +143,8 @@ for(i in 1:10){
 conf.mat # 0 does not have heart disease, 1 has heart disease
 store.errorRate
 mean(store.errorRate)
+# Accuracy
+1 - mean(store.errorRate)
 
 
 # Role of age
