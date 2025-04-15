@@ -155,6 +155,15 @@ summary(heart.age.fit)
 heart.full = glm(num ~ ., family = "binomial", data = HeartDisease) # Age is not significant
 summary(heart.full)
 
+# Including age alongside the significant predictors
+heart.age = glm(num ~ age + sex + cp + trestbps + thalach + exang
+                        + slope + ca + thal, family = "binomial", 
+                        data = HeartDisease)
+summary(heart.age)
+
+
+# Convert num to numeric
+HeartDisease$num <- as.numeric(as.character(HeartDisease$num))
 
 # Prominence of heart disease in males or females
 heart.sex = glm(num ~ sex + cp + trestbps + thalach + exang
@@ -181,6 +190,7 @@ heart.rf
 varImpPlot(heart.rf)
 
 
+set.seed(123)
 heart.rf.optimal = randomForest(num ~ sex + cp + trestbps + thalach + exang
                                 + slope + ca + thal, data = HeartDisease,
                                 ntree = 500, mtry = sqrt(8), importance = T)
@@ -212,3 +222,5 @@ for(i in c(1: 10)){
 conf.mat # 0 does not have heart disease, 1 has heart disease
 store.errorRate
 mean(store.errorRate)
+
+varImpPlot(heart.rf.cv)
