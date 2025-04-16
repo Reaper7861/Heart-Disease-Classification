@@ -66,7 +66,7 @@ Total of 14 variables:
 *slope*: the slope of the peak exercise ST segment (0 = upsloping, 1 = flat, 2 = downsloping) - categorical\
 *ca*: number of major vessels (0-3) colored by fluoroscopy - categorical\
 *thal*: 0 = normal, 1 = fixed defect, 2 = reversable defect - categorical\
-*num*: diagnosis of heart disease (1 = disease, 0 = no disease) - categorical\
+*num*: diagnosis of heart disease (1 = disease, 0 = no disease) - categorical
 
 ## Main Questions
 
@@ -80,24 +80,24 @@ Is heart disease more prominent in males or females?
 
 ## Models
 
-We will be using Logistic Regression as our first model because our response is categorical, and it will allow us to classify whether or not a patient has heart disease since Logistic Regression produces the probability of an event occurring. Also, the ease of interpretability of Logistic Regression because it provides how each feature impacts the response variable and its simplicity in implementing this model further solidified our choice.
+We will be using Logistic Regression as our first model because our response is categorical, and it will allow us to classify whether or not a patient has heart disease since Logistic Regression produces the probability of an event occurring. Also, the ease of interpretability of Logistic Regression because it provides how each feature impacts the response variable and its simplicity in implementing this model further solidified our choice. However, Logistic Regression has difficulty with non-linear data and is not able to capture these trends, and this model is sensitive to outliers, which can cause disarray in the performance and statistics of the model. 
 
-\noindent We will be using Random Forests as our second model because it will enable us to accurately predict our classifier and provide further insights into complex, non-linear interactions between features that Logistic Regression would not be able to capture, which will come in handy for our analysis, as well as the fact that this model will be able to determine the rank of importance of the predictors for this dataset.
+\noindent We will be using Random Forests as our second model because it will enable us to accurately predict our classifier and provide further insights into complex, non-linear interactions between features that Logistic Regression would not be able to capture, which will come in handy for our analysis, as well as the fact that this model will be able to determine the rank of importance of the predictors for this dataset. However, Random Forest can be computationally expensive, prone to overfitting if not tuned properly, and can be less interpretable than Logistic Regression.
 
 \noindent Additionally, we will use cross-validation for model comparison and evaluation. It will provide a fair comparison between the Logistic Regression and the Random Forest Models, aiding our analysis.
 
 ## Logistic Regression Model (Subhan, Dinh, Nicholas) 
 
-Since our scenario is a classification problem, predicting whether a patient has heart disease or not based on attributes, our response variable, *num*, is categorical. As such, our first model will be Logistic Regression. Our goal would be to use significant features found through our analysis within our model to answer certain questions with Logistic Regression; the questions that we will answer are specified under the Main Questions section. Additionally, a benefit of utilizing Logistic Regression in this situation is that it is simple to implement and easy to understand the results that are outputted. But, there are still downsides to using this model, such as overfitting our model, fitting the noise of the dataset rather than the true data, and if many variables are factored into training the model, then the results can be convoluted, and the Logisitc Regression could be out-performed by another model, such as Random Forest. 
+Since our scenario is a classification problem, predicting whether a patient has heart disease based on attributes, our response variable, *num*, is categorical. As such, our first method will be Logistic Regression. Our goal would be to use significant features found through our analysis within our model to answer specific questions with Logistic Regression; the questions we will answer are specified under the Main Questions section. Additionally, a benefit of utilizing Logistic Regression in this situation is that it is simple to implement and easy to understand the results that are outputted. However, there are still downsides to using this model, such as overfitting our model, fitting the noise of the dataset rather than the true data, and if many variables are factored into training the model, then the results can be convoluted, and the Logistic Regression could be out-performed by another model, such as Random Forest. 
 
 $$
 p(x) = \frac{\exp(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots + \beta_{13} X_{13})}
 {1 + \exp(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots + \beta_{13} X_{13})}
 $$
 
-p(X), also known as Y, will be the response variable, num, B0 will be the intercept, B1 through B13 will be the predictors or features, which are age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, and thal. Initially, we are including all the predictors from the dataset into the model, and we will statistically analyze and reduce features till we are only left with the significant ones to this dataset and the ones important in predicting heart disease. 
+p(X), also known as Y, will be the response variable, num, B0 will be the intercept, B1 through B13 will be the predictors or features, which are *age*, *sex*, *cp*, *trestbps*, *chol*, *fbs*, *restecg*, *thalach*, *exang*, *oldpeak*, *slope*, *ca*, and *thal.* Initially, we include all the predictors from the dataset into the model, and we will statistically analyze and reduce features till we are only left with the significant ones to this dataset and the ones important in predicting heart disease. 
 
-\noindent To train the Logistic Regression Model, we wanted to first find the significant variables for this dataset. Initially, we started off by training Logistic Models with each variable included individually in relation to the predicted variable, num. For example, we trained a Logistic Model with num and age, num and sex, etc. From this, we found that age, sex, cp, trestbps, restecg, thalach, exang, oldpeak, slope, and ca were significant when fitted individually based on the p-value. Next, we trained a Logistic Model with all the variables included, as seen below. From this fit, we found that sex, cp, trestbps, thalach, oldpeak, and slope were significant via the p-value. At this point, we noted that the variables, sex, cp, trestbps, thalach, oldpeak, and slope were both significant when trained individually with the model and when trained all together; hence, we considered these variables as significant. 
+\noindent To train the Logistic Regression Model, we wanted first to find the significant variables for this dataset. Initially, we started by training Logistic Models with each variable included individually in relation to the predicted variable, *num*. For example, we trained a Logistic Model with *num* and *age*, *num* and *sex*, etc. We found that *age*, *sex*, *cp*, *trestbps*, *restecg*, *thalach*, *exang*, *oldpeak*, *slope*, and *ca* were significant when fitted individually based on the p-value. Next, we trained a Logistic Model with all the variables included, as seen below. From this fit, we found that *sex*, *cp*, *trestbps*, *thalach*, *oldpeak*, and *slope* were significant via the p-value. At this point, we noted that the variables, *sex*, *cp*, *trestbps*, *thalach*, *oldpeak*, and *slope*, were both significant when trained individually with the model and when trained all together; hence, we considered these variables significant. 
 
 ```{r}
 #| warning: false
@@ -108,7 +108,7 @@ heart.fit = glm(num ~ ., family = "binomial", data = HeartDisease)
 summary(heart.fit)
 ```
 
-Afterward, we utilized the step() function to acquire a model with appropriate features based on the lowest AIC, as seen below. From this, we noted that the model giving the lowest AIC included the variables sex, cp, trestbps, thalach, exang, slope, ca, and thal. This enforced some of our recognized significant predictors from previous analysis. Therefore, we considered sex, cp, trestbps, thalach, and slope as confirmed significant predictors. Upon further investigation by fitting test models with combinations of exang, ca, and thal with the previous confirmed significant predictors, we found that including exang, ca, and thal with the already recognized important features gave us better model statistics than not including them, specifically, we achieved a lower residual deviance and lower AIC while the null deviance stayed the same throughout the test models. Additionally, from our earlier studies, we also initially included oldpeak and slope within our list of significant predictors, however, after running test models by including a combination of oldpeak and slope with the already existing variables, we found that these features significantly increased the AIC and heightened the residual deviance, hence, we knew these features were not appropriate for our model and were not included. 
+Afterward, we utilized the step() function to acquire a model with appropriate features based on the lowest AIC, as seen below. From this, we noted that the model giving the lowest AIC included *sex*, *cp*, *trestbps*, *thalach*, *exang*, *slope*, *ca*, and *thal*. This enforced some of our recognized significant predictors from previous analyses. Therefore, we considered *sex*, *cp*, *trestbps*, *thalach*, and *slope* as confirmed significant predictors. Upon further investigation by fitting test models with combinations of exang, ca, and thal with the previously confirmed significant predictors, we found that including *exang*, *ca*, and *thal* with the already recognized important features gave us better model statistics than not including them specifically, we achieved lower residual deviance and lower AIC while the null deviance stayed the same throughout the test models. Additionally, from our earlier studies, we also initially included *oldpeak* and *slope* within our list of significant predictors; however, after running test models by including a combination of *oldpeak* and *slope* with the already existing variables, we found that these features significantly increased the AIC and heightened the residual deviance; hence, we knew these features were not appropriate for our model and were not included. 
 
 ```{r}
 #| warning: false
@@ -117,7 +117,7 @@ Afterward, we utilized the step() function to acquire a model with appropriate f
 step(heart.fit)
 ```
 
-Therefore, for our significant features and the answer to one of our questions, which features are the most important predictors of heart disease, we found sex, cp, trestbps, thalach, exang, slope, ca, and thal were important and thus included and trained with a Logistic Regression Model to give us the optimal model. Additionally, here, given the best model, the null hypothesis would be that all the coefficients in the model equate to zero, and the alternative hypothesis would be that at least one coefficient is non-zero. From our analysis, we would reject the null hypothesis since there are predictors that are significant on the basis of their p-value. Below is the training of the best model with the significant features. Though there are some features that are not significant based on their p-values, the metrics that we achieve from training the Logistic Regression Model results in the lowest AIC and residual deviance. 
+Therefore, for our significant features and the answer to one of our questions, which features are the most important predictors of heart disease, we found *sex*, *cp*, *trestbps*, *thalach*, *exang*, *slope*, *ca*, and *thal* were important and thus included and trained with a Logistic Regression Model to give us the optimal model. Additionally, given the best model, the null hypothesis would be that all the coefficients in the model equate to zero, and the alternative hypothesis would be that at least one coefficient is non-zero. From our analysis, we would reject the null hypothesis since there are significant predictors based on their p-value. Below is the training of the best model with the significant features. However, there are some features that are not significant based on their p-values. The metrics that we achieve from training the Logistic Regression Model result in the lowest AIC and residual deviance. 
 
 ```{r}
 #| warning: false
@@ -164,11 +164,11 @@ mean(store.errorRate)
 1 - mean(store.errorRate)
 ```
 
-From the results, it can be seen that the average error rate of the Logistic Regression model is 0.1754 or 17.54%, meaning that the model has an error of approximately 17.54%. Each of these error rates was calculated by taking the false positives in addition to the false negatives and dividing it by the total observations. This means that on average, our model is 0.8246 or 82.46% accurate in predicting *num*, i.e., whether or not a patient has a heart disease, given that the significant predictors are known.\vspace{5pt}
+The results show that the average error rate of the Logistic Regression model is 0.1754 or 17.54%, meaning that the model has an error of approximately 17.54%. Each of these error rates was calculated by taking the false positives in addition to the false negatives and dividing it by the total observations. This means that, on average, our model is 0.8246 or 82.46% accurate in predicting *num*, i.e., whether or not a patient has a heart disease, given that the significant predictors are known.\vspace{5pt}
 
-Moreover, one of the questions that we specified concerning this dataset is whether age plays a significant role in predicting heart disease. Hence, with our best model determined, we took this opportunity to establish this. It is to be noted that age is not included within our set of important features, so it can be said that age does not play a significant role in predicting heart disease. However, we did further analysis to solidify this claim. 
+Moreover, one of the questions we specified concerning this dataset is whether *age* plays a significant role in predicting heart disease. Hence, with our best model determined, we took this opportunity to establish this. It is to be noted that *age* is not included within our set of important features, so it can be said that *age* does not play a significant role in predicting heart disease. However, we did further analysis to solidify this claim. 
 
-As previously discussed, whenever *age* is modeled individually with respect to *num*, the variable is significant based on the p-value. However, when we plot a Linear Model with all the features included, as we have already seen, we notice that age is no longer a significant predictor. Additionally, the step() function that we formerly implemented granted us the predictors that resulted in the lowest AIC and leading us to the significant variables, age was not included amongst these variables. Moreover, when including age alongisde the features of our optimal model, as seen below, we can note that it increases our AIC and is not significant based on its p-value, indicating that including *age* gives our model poor performance than previously seen. Hence, we can atest that age does not play a significant role in predicting heart disease. 
+As previously discussed, whenever *age* is modeled individually concerning *num*, the variable is significant based on the p-value. However, when we plot a Linear Model with all the features included, as we have already seen, we notice that *age* is no longer a significant predictor. Additionally, the step() function that we formerly implemented granted us the predictors that resulted in the lowest AIC and led us to the significant variables; age was not included among these variables. Moreover, when including *age* along with the features of our optimal model, as seen below, we can note that it increases our AIC and is not significant based on its p-value, indicating that including *age* gives our model poorer performance than previously seen. Hence, we can attest that *age* does not play a significant role in predicting heart disease. 
 
 ```{r}
 #| warning: false
@@ -181,11 +181,13 @@ heart.age = glm(num ~ age + sex + cp + trestbps + thalach + exang
 summary(heart.age)
 ```
 
-Furthermore, another question that we posed was: is heart disease more prominent in males or females? To analyze this, we trained a Multiple Logistic Regression Model via the optimal model with the significant predictors. Then, we split the model based on gender, male and female, and extracted the mean from the predictors for each gender, so that we could get a reasonable metric for each sex. 
+Furthermore, another question we posed was: is heart disease more prominent in males or females? We trained a Multiple Logistic Regression Model via the optimal model with the significant predictors to analyze this. Then, we split the model based on gender, male and female, and extracted the mean from the predictors for each gender to get a reasonable metric for each sex. 
 
 ```{r}
 #| warning: false
 #| message: false
+# Convert num to numeric
+HeartDisease$num <- as.numeric(as.character(HeartDisease$num))
 # Prominence of heart disease in males or females
 # Female is 0, male is 1
 sex.split = split(HeartDisease, HeartDisease$sex)
@@ -197,13 +199,19 @@ summary(sex.split[[2]]) # Split for males
 mean(sex.split[[2]]$num) # Mean split for males
 ```
 
-From the results, we can see that females, measured as 0, have a 0.2577 or 25.77% probability of having a heart disease, and the males, measured as 1, have a 0.5534 or 55.34% probability of having a heart disease. It is clear that heart disease is more prominent in males than females given this higher statistic for males derived from the dataset, which also explains why sex is a significant feature within the model as the gender of a patient can play an important role in determining whether a patient has heart disease.
+From the results, we can see that females, measured as 0, have a 0.2577 or 25.77% probability of having a heart disease, and the males, measured as 1, have a 0.5534 or 55.34% probability of having a heart disease. It is clear that heart disease is more prominent in males than females, given this higher statistic for males derived from the dataset, which also explains why *sex* is a significant feature within the model, as the gender of a patient can play an important role in determining whether a patient has heart disease.
 
 ## Random Forest Model (Julio and Almin)
+
+For our second method, we employed the Random Forest model. This approach offers reduced variability compared to other tree-based techniques like bagging and decision trees, while effectively capturing non-linear and complex relationships within the dataset. However, a negative of Random Forest is that its interpretability can be difficult, as it involves the construction of numerous decision trees.
+
+\noindent Initially, the Random Forest Model will follow the form num ~ age + sex + cp + trestbps + chol + fbs + restecg + thalach + exang + oldpeak + slope + ca + thal, which is the complete model with all the predictors included. Below is the training of this model and its respective variable importance plot.   
 
 ```{r}
 #| warning: false
 #| message: false
+# Convert num to factor
+HeartDisease$num <- as.factor(HeartDisease$num)
 set.seed(123)
 
 heart.rf = randomForest(HeartDisease$num ~ ., data = HeartDisease,
@@ -213,9 +221,17 @@ heart.rf
 varImpPlot(heart.rf)
 ```
 
+The Random Forest Model, which included all the features, was trained with 500 trees. From it, we achieved an error rate of 17.16%, which is only slightly better than our best-performing Logistic Regression Model. 
+
+\noindent Additionally, from the variable importance plot, we can note that *ca*, *thal*, and *cp* are significant variables in this instance, which is measured by the total amount that the Gini Index decreases after each split over that predictor. The larger this value is, the more important this predictor is within our model(s). The there predictors we identified as important reinforce some of the predictors we had already deemed significant from our analysis that being *ca*, *thal*, and *cp*.\vspace{5pt}
+
+Next, we trained a Random Forest Model with only the significant predictors that we established from our analysis with the Logistic Regression Model. Below is the training of the model. 
+
 ```{r}
 #| warning: false
 #| message: false
+# Convert num to factor
+HeartDisease$num <- as.factor(HeartDisease$num)
 set.seed(123)
 heart.rf.optimal = randomForest(num ~ sex + cp + trestbps + thalach + exang
                                 + slope + ca + thal, data = HeartDisease,
@@ -225,10 +241,15 @@ heart.rf.optimal = randomForest(num ~ sex + cp + trestbps + thalach + exang
 heart.rf.optimal
 varImpPlot(heart.rf.optimal)
 ```
+Here, the Random Forest Model trained with the significant features previously established and with 500 trees gave us an error of 20.13%, which is higher than the Logistic Model and higher than the Random Forest Model when all predictors were considered. However, this could potentially mean that a Logistic Model would be best in this scenario between the two. As such, we will continue our Random Forest analysis with the eight significant features that we noted.\vspace{5pt}
+
+Next, we did an 80/20 split of the data to train the Random Forest Model on 80% of the data and train it on the remaining 20%. This was run for 10 iterations, and the error rate was calculated and stored for each iteration, from which we calculated the mean error rate to give us an overall error rate of the Random Forest Model via cross-validation. The model was trained with 500 trees.
 
 ```{r}
 #| warning: false
 #| message: false
+# Convert num to factor
+HeartDisease$num <- as.factor(HeartDisease$num)
 # Random Forest Cross Validation - 80/20 Split
 store.errorRate = rep(0, 10)
 
@@ -256,5 +277,25 @@ mean(store.errorRate)
 
 varImpPlot(heart.rf.cv)
 ```
+The average test error rate of the Random Forest Model results is 0.1967213 or 19.67%. This is higher than the mean test error rate of the Logistic Regression Model. Hence, we can say that the Logistic Regression Model is the better model to predict heart disease based on this dataset, which answers our main question. The Logistic Regression Model performed better, and we can assert that it is the better model to predict heart disease on this dataset based on the test error rates and model metrics/statistics. This could possibly be attributed to the low noise of the dataset, the size of the dataset, balanced class distribution, etc.
 
 ## Conclusion
+
+In this project, we posed many questions concerning the prediction and inference of heart disease in patients and its inner workings. The Logistic Regression Model was utilized in feature importance to find the significant predictors of heart disease for this dataset. It proved useful and effective as it is one of the strengths of Logistic Regression Models and can be difficult when using Random Forest. This process answered one of our questions of which features were important predictors of heart disease, which were *sex*, *cp*, *trestbps*, *thalach*, *exang*, *slope*, *ca*, and *thal*.   
+
+\noindent Through our testing, implementation, and analysis, we found the Logistic Regression to be a better-performing model when it comes to predicting heart disease, which was surprising, as we had assumed the Random Forest Model would have performed better due to its functionalities, but that proved to be untrue. Our Logistic Regression Model yielded a lower test error than the Random Forest Model. This answered the main question that we initiated. 
+
+\noindent Additionally, we also asked ourselves whether age played a significant role in predicting heart disease, which we found to be untrue, as it was not an important attribute concerning heart disease in patients. 
+
+\noindent Moreover, we raised the question of whether heart disease was more prominent in males or females. Our examination revealed that males were more susceptible to heart diseases than females, which was an eye-opening discovery. 
+
+\noindent Overall, through our exploration and research, we answered important questions in relation to heart disease in patients and trained two models in classifying patients with such an ailment. 
+
+\newpage  
+\begin{center}
+\normalsize Bibliography
+\end{center}
+
+Andras Janosi, William Steinbrunn. Heart Disease. UCI Machine Learning Repository, 1989. DOI.org (Datacite), https://doi.org/10.24432/C52P4X.
+
+CDC. “Heart Disease Facts.” Heart Disease, 7 Feb. 2025, https://www.cdc.gov/heart-disease/data-research/facts-stats/index.html.

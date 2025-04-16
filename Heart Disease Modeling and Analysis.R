@@ -181,6 +181,9 @@ summary(sex.split[[2]]) # Split for males
 # Random Forest
 library(randomForest)
 
+# Convert num to factor
+HeartDisease$num <- as.factor(HeartDisease$num)
+
 set.seed(123)
 
 heart.rf = randomForest(HeartDisease$num ~ ., data = HeartDisease,
