@@ -241,7 +241,7 @@ heart.rf.optimal = randomForest(num ~ sex + cp + trestbps + thalach + exang
 heart.rf.optimal
 varImpPlot(heart.rf.optimal)
 ```
-Here, the Random Forest Model trained with the significant features previously established and with 500 trees gave us an error of 20.13%, which is higher than the Logistic Model and higher than the Random Forest Model when all predictors were considered. However, this could potentially mean that a Logistic Model would be best in this scenario between the two. As such, we will continue our Random Forest analysis with the eight significant features that we noted.\vspace{5pt}
+Here, the Random Forest Model trained with the significant features previously established and with 500 trees gave us an error of 20.13%, which is higher than the Logistic Model and higher than the Random Forest Model when all predictors were considered. However, this could potentially mean that a Logistic Model would be best in this scenario between the two. As such, we will continue our Random Forest analysis with the eight significant features that we noted. Also, from the variable importance plot, we can note that *cp* and *thal* are significant features here.\vspace{5pt}
 
 Next, we did an 80/20 split of the data to train the Random Forest Model on 80% of the data and train it on the remaining 20%. This was run for 10 iterations, and the error rate was calculated and stored for each iteration, from which we calculated the mean error rate to give us an overall error rate of the Random Forest Model via cross-validation. The model was trained with 500 trees.
 
@@ -277,7 +277,7 @@ mean(store.errorRate)
 
 varImpPlot(heart.rf.cv)
 ```
-The average test error rate of the Random Forest Model results is 0.1967213 or 19.67%. This is higher than the mean test error rate of the Logistic Regression Model. Hence, we can say that the Logistic Regression Model is the better model to predict heart disease based on this dataset, which answers our main question. The Logistic Regression Model performed better, and we can assert that it is the better model to predict heart disease on this dataset based on the test error rates and model metrics/statistics. This could possibly be attributed to the low noise of the dataset, the size of the dataset, balanced class distribution, etc.
+The average test error rate of the Random Forest Model results is 0.1967213 or 19.67%. This is higher than the mean test error rate of the Logistic Regression Model. Hence, we can say that the Logistic Regression Model is the better model to predict heart disease based on this dataset, which answers our main question. The Logistic Regression Model performed better, and we can assert that it is the better model to predict heart disease on this dataset based on the test error rates and model metrics/statistics. This could possibly be attributed to the low noise of the dataset, the size of the dataset, balanced class distribution, etc. Also, from the variable importance plot, we notice that *cp* and *thal* are significant predictors. 
 
 ## Conclusion
 
