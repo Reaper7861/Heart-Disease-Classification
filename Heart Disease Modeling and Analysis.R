@@ -181,6 +181,7 @@ summary(sex.split[[2]]) # Split for males
 # Random Forest
 library(randomForest)
 
+# Fitting full model
 # Convert num to factor
 HeartDisease$num <- as.factor(HeartDisease$num)
 
@@ -193,6 +194,17 @@ heart.rf
 varImpPlot(heart.rf)
 
 
+# Fitting test model
+set.seed(123)
+
+heart.rf.test = randomForest(num ~ ca + thal + cp, data = HeartDisease,
+                             ntree = 500, mtry = sqrt(3), importance = T)
+
+heart.rf.test
+varImpPlot(heart.rf.test)
+
+
+# Fitting optimal model
 set.seed(123)
 heart.rf.optimal = randomForest(num ~ sex + cp + trestbps + thalach + exang
                                 + slope + ca + thal, data = HeartDisease,

@@ -214,7 +214,7 @@ For our second method, we employed the Random Forest model. This approach offers
 HeartDisease$num <- as.factor(HeartDisease$num)
 set.seed(123)
 
-heart.rf = randomForest(HeartDisease$num ~ ., data = HeartDisease,
+heart.rf = randomForest(num ~ ., data = HeartDisease,
                         ntree = 500, mtry = sqrt(13), importance = T)
 
 heart.rf
@@ -225,12 +225,30 @@ The Random Forest Model, which included all the features, was trained with 500 t
 
 \noindent Additionally, from the variable importance plot, we can note that *ca*, *thal*, and *cp* are significant variables in this instance, which is measured by the total amount that the Gini Index decreases after each split over that predictor. The larger this value is, the more important this predictor is within our model(s). The there predictors we identified as important reinforce some of the predictors we had already deemed significant from our analysis that being *ca*, *thal*, and *cp*.\vspace{5pt}
 
-Next, we trained a Random Forest Model with only the significant predictors that we established from our analysis with the Logistic Regression Model. Below is the training of the model. 
+For testing purposes, we created a Random Forest with the three significant predictors we found by plotting the full Random Forest Model, which were *ca*, *thal*, and *cp*. Below is the variable importance plot and statistics of this model. 
 
 ```{r}
 #| warning: false
 #| message: false
-# Convert num to factor
+# Convert num to factor (if needed)
+HeartDisease$num <- as.factor(HeartDisease$num)
+set.seed(123)
+
+heart.rf.test = randomForest(num ~ ca + thal + cp, data = HeartDisease,
+                        ntree = 500, mtry = sqrt(3), importance = T)
+
+heart.rf.test
+varImpPlot(heart.rf.test)
+```
+
+This particular model attained an error rate of 16.83% which is slightly better than the better-performing Logistic Regression Model, and slightly better than the full Random Forest Model we implemented previously. However, though the statistics of this model with these predictors give better performance, we decided to go with the significant predictors we obtained via Logistic Regression and train the Random Forest Model with these features.\vspace{5pt}
+
+Therefore, we trained a Random Forest Model with only the significant predictors that we established from our analysis with the Logistic Regression Model. Below is the training of the model. 
+
+```{r}
+#| warning: false
+#| message: false
+# Convert num to factor (if needed)
 HeartDisease$num <- as.factor(HeartDisease$num)
 set.seed(123)
 heart.rf.optimal = randomForest(num ~ sex + cp + trestbps + thalach + exang
@@ -248,7 +266,7 @@ Next, we did an 80/20 split of the data to train the Random Forest Model on 80% 
 ```{r}
 #| warning: false
 #| message: false
-# Convert num to factor
+# Convert num to factor (if needed)
 HeartDisease$num <- as.factor(HeartDisease$num)
 # Random Forest Cross Validation - 80/20 Split
 store.errorRate = rep(0, 10)
